@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+    <div class="Container">
+
+        <div class="main">
+            <input type="checkbox" name="" id="chk" aria-hidden="true">
+            <div class="signup">
+                <form onsubmit="return false">
+                    <label for="chk" aria-hidden="true">Sign up</label>
+                    <span id="signup_message"></span>
+                    <input type="text" name="txt" placeholder="user name..." id="signin_Name" required autofocus>
+                    <input type="email" name="email" placeholder="Email..." id="signin_Email" reqired>
+                    <input type="password" name="passCode" placeholder="Password..." id="signin_Password" required>
+                    <button onclick="HandleSignUp()">Sign Up</button>
+                </form>
+            </div>
+
+            <div class="login">
+                <form onsubmit="return false">
+                    <label for="chk" aria-hidden="true">Login</label>
+                    <span id="signin_message"></span>
+                    <input type="email" name="email" placeholder="Email..." id="login_Email" required>
+                    <input type="password" name="passCode" placeholder="Password..." id="login_password" required>
+                    <button onclick="HandleSignIn()">Login</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</body>
+
+<script>
+    var signin_Name = document.getElementById("signin_Name")
+    var signin_Email = document.getElementById("signin_Email")
+    var signin_PassCode = document.getElementById("signin_Password")
+    const LOCALSTORAGE_KEY = "loginPage"
+
+    function HandleSignUp() {
+        const Data = [
+            {
+                _name: signin_Name.value,
+                email: signin_Email.value,
+                passCode: signin_PassCode.value,
+            }
+        ]
+        localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(Data))
+        signup_message.innerHTML = "Thanks for signing up on Joy's hub"
+        console.log(Data);
+    }
+
+
+    function HandleSignIn() {
+        var signIn_message = document.getElementById("signin_message")
+        const CurrentUser = JSON.parse(localStorage.getItem(LOCALSTORAGE_KEY))
+        let _email = CurrentUser[0].email
+        let pCode = CurrentUser[0].passCode
+        let userName = CurrentUser[0]._name
+        var login_Email = document.getElementById("login_Email").value
+        var login_PassCode = document.getElementById("login_password").value
+
+        if (_email === login_Email && pCode === login_PassCode) {
+            signIn_message.innerHTML = `Oh thank you ${userName} for logging😁`
+        } else {
+            signIn_message.innerHTML = `Wrong Details😪`
+        }
+        // console.log(login_Email, login_PassCode, userName)
+    }
+
+</script>
+
+</html>
